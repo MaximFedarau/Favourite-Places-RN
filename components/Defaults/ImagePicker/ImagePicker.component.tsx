@@ -1,13 +1,23 @@
 //Types
-import { ReactElement } from "react";
+import React,{ ReactElement } from "react";
+
+//Constants
+import { styles } from "./ImagePicker.styles";
+
+//Components
+import Button from "../Button/Button.component";
 
 //Expo
 import * as ExpoImagePicker from 'expo-image-picker';
+import {Ionicons} from '@expo/vector-icons';
 
 //React Native
-import { View, Button, Alert } from 'react-native'
+import { View,  Alert, Image, Text } from 'react-native'
 
 export default function ImagePicker():ReactElement {
+
+    const [image, setImage] = React.useState<string | null>(null);
+
     const [cameraPermission, requestPermission] = ExpoImagePicker.useCameraPermissions();
 
     async function verifyPermissions() {
@@ -32,12 +42,14 @@ export default function ImagePicker():ReactElement {
             allowsEditing: true, 
             aspect: [16, 9], 
             quality: 0.5});
-        console.log(image);
+        if (!image.cancelled) setImage(image.uri)
     }
 
-    return <View>
-        <View>
-            </View> 
-        <Button title="Select photo" onPress={takeImageHandler} />
+    return <View style={styles.container}>
+        {image ? <Image source={{ uri: image }} style={styles.image} /> : <View style={styles.noImageContainer}>
+            <Ionicons name="camera" size={64} color="white" />
+            <Text style={styles.noImageText}>No image was selected.</Text>
+        </View> }
+        <Button onPress={takeImageHandler}>Select photo</Button>
     </View>
 }
