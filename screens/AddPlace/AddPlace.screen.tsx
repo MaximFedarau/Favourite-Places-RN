@@ -1,9 +1,11 @@
 //Types
-import { ReactElement } from "react";
+import React,{ ReactElement } from "react";
 
 //Constants
 import { styles } from "./AddPlace.styles";
 import { addPlaceFormValidationSchema } from "../../constants/validationSchemas";
+import { SCREEN_NAMES } from "../../constants/constants";
+import { LocationCoords } from "../../constants/types";
 
 //Components
 import FormField from "../../components/Defaults/FormField/FormField.component";
@@ -23,9 +25,10 @@ const formInitialValues = {
 
 export default function AddPlace():ReactElement {
 
-    function handleSubmit(values:any) {
-        console.log(values)
-    }
+
+    function handleSubmit(value: any) {
+        console.log(value);
+    } 
 
     return <Formik initialValues={formInitialValues} validationSchema={addPlaceFormValidationSchema} onSubmit={handleSubmit}>
         {({ values, handleSubmit, handleChange }) => (

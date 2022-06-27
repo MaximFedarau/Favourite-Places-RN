@@ -1,6 +1,7 @@
 //Types
 import React,{ ReactElement } from "react";
 import { LocationCoords } from "../../../constants/types";
+import { NavigationProps } from "../../../constants/constants";
 
 //Constants
 import { styles } from "./LocationPicker.styles";
@@ -15,10 +16,15 @@ import {Ionicons} from '@expo/vector-icons';
 //React Native
 import { View, Alert, Text } from 'react-native'
 
+//React Navigation
+import {useNavigation} from "@react-navigation/native"
+
 //React Native Maps
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 
 export default function LocationPicker(): ReactElement {
+
+  const navigation = useNavigation<NavigationProps>();
 
   const [pickedLocation, setPickedLocation] = React.useState<LocationCoords | null>(null);  
 
@@ -47,7 +53,7 @@ export default function LocationPicker(): ReactElement {
     }
 
   function selectCoordsHandler() {
-    console.log("Select coords");
+    navigation.navigate("Map")
   }  
 
   return <View>
@@ -56,7 +62,11 @@ export default function LocationPicker(): ReactElement {
         latitude: pickedLocation.lat,
         longitudeDelta: 0.01,
         latitudeDelta: 0.01,
-    }} scrollEnabled={false} showsBuildings showsCompass showsIndoors /></View> : <View style={styles.noLocationContainer}>
+    }} scrollEnabled={false} showsBuildings showsCompass showsIndoors>
+      <Marker title="Picked Location" coordinate={{
+          longitude: pickedLocation.lng,
+          latitude: pickedLocation.lat,}} />
+      </MapView></View> : <View style={styles.noLocationContainer}>
             <Ionicons name="location" size={64} color="white" />
             <Text style={styles.noLocationText}>No location was selected.</Text>
         </View>}
