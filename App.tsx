@@ -9,7 +9,7 @@ import { NavigationProps } from './constants/constants';
 
 //Screens
 import Home from './screens/Home/Home.screen';
-import AddPlace from './screens/AddPlace/AddPlace.screen.component';
+import AddPlace from './screens/AddPlace/AddPlace.screen';
 
 //React Navigation
 import { NavigationContainer } from '@react-navigation/native';
