@@ -1,4 +1,4 @@
-interface Place {
+export interface Place {
     title: string;
     imageUri: string;
     address: string;

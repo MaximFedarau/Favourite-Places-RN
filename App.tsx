@@ -22,20 +22,20 @@ export default function App() {
     <>
     <StatusBar style='light' />
     <NavigationContainer>
-      <Stack.Navigator screenOptions={({navigation}:{navigation: NavigationProps}) => ({
+      <Stack.Navigator screenOptions={{
           headerStyle: {backgroundColor: PRIMARY_200},
-          headerRight: ({tintColor}) => {
+          contentStyle: {
+            backgroundColor: GRAY_700,
+          }
+      }}>
+        <Stack.Screen name={SCREEN_NAMES.HOME} options={({navigation}:{navigation: NavigationProps}) => ({title: 'Your Favourite Places',
+        headerRight: ({tintColor}) => {
             function onPressHandler() {
               navigation.navigate(SCREEN_NAMES.ADD_PLACE);
             }
             return <Ionicons name='add' size={24} color={tintColor} onPress={onPressHandler} />
-          },
-          contentStyle: {
-            backgroundColor: GRAY_700,
-          }
-      })}>
-        <Stack.Screen name={SCREEN_NAMES.HOME} options={{title: 'Your Favourite Places'}} component={Home} />
-        <Stack.Screen name={SCREEN_NAMES.ADD_PLACE} options={{title: 'Add a new Place'}} component={AddPlace} />
+          }})} component={Home} />
+        <Stack.Screen name={SCREEN_NAMES.ADD_PLACE} options={{title: 'Add a new Place',}} component={AddPlace} />
       </Stack.Navigator>
     </NavigationContainer>
     </>
