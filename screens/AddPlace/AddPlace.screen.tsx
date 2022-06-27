@@ -8,6 +8,7 @@ import { addPlaceFormValidationSchema } from "../../constants/validationSchemas"
 //Components
 import FormField from "../../components/Defaults/FormField/FormField.component";
 import ImagePicker from "../../components/Defaults/ImagePicker/ImagePicker.component";
+import LocationPicker from "../../components/Defaults/LocationPicker/LocationPicker.component";
 
 //React Native
 import {View, ScrollView} from "react-native"
@@ -35,6 +36,7 @@ export default function AddPlace():ReactElement {
                 label='Title'
                 placeholder="Enter your title:" />
                 <ImagePicker />
+                <LocationPicker/>
             </ScrollView>
         )}
     </Formik>
