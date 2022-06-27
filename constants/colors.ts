@@ -1,0 +1,9 @@
+export const PRIMARY_50 =  '#cfeffd';
+export const PRIMARY_100 = '#a0defb';
+export const PRIMARY_200 = '#77cff8';
+export const PRIMARY_400 =  '#44bdf5';
+export const PRIMARY_500 = '#1aacf0';
+export const PRIMARY_700 = '#0570c9';
+export const PRIMARY_800 = '#003b88';
+export const ACCENT_500 = '#e6b30b';
+export const GRAY_700 = '#221c30';
