@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
       marginVertical: 8,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: PRIMARY_500,
       borderRadius: 4,
       overflow: 'hidden',
     },
@@ -24,5 +23,16 @@ export const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
     },
+    noLocationContainer: {
+        marginVertical: 12,
+        width: "100%", 
+        height: 200,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    noLocationText: {
+        fontSize: 18,
+        color: 'white',
+    }
   });
   

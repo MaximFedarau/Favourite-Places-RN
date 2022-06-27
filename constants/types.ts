@@ -2,9 +2,11 @@ export interface Place {
     title: string;
     imageUri: string;
     address: string;
-    location: {
-        lat: number;
-        lng: number;
-    },
+    location: LocationCoords,
     id: string;
+}
+
+export interface LocationCoords {
+    lat: number;
+    lng: number;
 }
