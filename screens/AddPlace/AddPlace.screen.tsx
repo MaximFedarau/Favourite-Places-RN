@@ -5,6 +5,7 @@ import { LocationCoords, AddPlaceForm } from "../../constants/types";
 //Constants
 import { styles } from "./AddPlace.styles";
 import { addPlaceFormValidationSchema } from "../../constants/validationSchemas";
+import { insertPlace } from "../../utils/db";
 
 //Components
 import FormField from "../../components/Defaults/FormField/FormField.component";
@@ -43,7 +44,7 @@ export default function AddPlace():ReactElement {
     async function handleFormSubmit(value: AddPlaceForm) {
         const addressOptions = await Location.reverseGeocodeAsync({latitude: selectedLocation?.lat!, longitude: selectedLocation?.lng!});
         const address = `${addressOptions[0].city}, ${addressOptions[0].region}, ${addressOptions[0].country}`;
-        console.log(address);
+        insertPlace(value.title, address, selectedImage!, selectedLocation!).then((res) => {console.log(res)})
     } 
 
     return <Formik initialValues={formInitialValues} validationSchema={addPlaceFormValidationSchema} onSubmit={handleFormSubmit}>
