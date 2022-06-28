@@ -1,3 +1,6 @@
+//React
+import React from 'react';
+
 // Expo
 import { StatusBar } from 'expo-status-bar';
 import {Ionicons} from '@expo/vector-icons';
@@ -6,6 +9,7 @@ import {Ionicons} from '@expo/vector-icons';
 import { PRIMARY_200, GRAY_700 } from './constants/colors';
 import { SCREEN_NAMES } from './constants/constants';
 import { NavigationProps } from './constants/constants';
+import { init } from './utils/db';
 
 //Screens
 import Home from './screens/Home/Home.screen';
@@ -19,6 +23,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  React.useEffect(() => {
+    init().then((res) => {console.log(1)});
+  },[])
+
   return (
     <>
     <StatusBar style='light' />
