@@ -54,7 +54,7 @@ export default function AddPlace():ReactElement {
         }
         const addressOptions = await Location.reverseGeocodeAsync({latitude: selectedLocation?.lat!, longitude: selectedLocation?.lng!});
         const address = `${addressOptions[0].city}, ${addressOptions[0].region}, ${addressOptions[0].country}`;
-        insertPlace(value.title, selectedImage!, address, selectedLocation!).then((res) => {console.log(res)})
+        insertPlace(value.title, selectedImage!, address, selectedLocation!)
         navigation.navigate(SCREEN_NAMES.HOME);
     } 
 

@@ -26,7 +26,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 
   React.useEffect(() => {
-    init().then((res) => {console.log(res)});
+    init();
   },[])
 
   return (
