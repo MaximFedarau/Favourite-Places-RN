@@ -17,7 +17,5 @@ interface ListProps {
 }
 
 export default function List({children}:ListProps):ReactElement {
-    return <View style={styles.container}>
-        <FlatList data={children} keyExtractor={(item) => item.id} renderItem={({item}) => <ListItem>{item}</ListItem>} />
-    </View>;
+    return <FlatList style={styles.container} data={children} keyExtractor={(item) => item.id} renderItem={({item}) => <ListItem>{item}</ListItem>} />
 }

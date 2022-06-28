@@ -1,10 +1,12 @@
 //Types
 import React,{ ReactElement } from "react";
 import { LocationCoords, AddPlaceForm } from "../../constants/types";
+import { NavigationProps, SCREEN_NAMES } from "../../constants/constants";
 
 //Constants
 import { styles } from "./AddPlace.styles";
 import { addPlaceFormValidationSchema } from "../../constants/validationSchemas";
+import { insertPlace } from "../../utils/db";
 
 //Components
 import FormField from "../../components/Defaults/FormField/FormField.component";
@@ -18,6 +20,9 @@ import * as Location from 'expo-location';
 //React Native
 import {View, ScrollView, Text} from "react-native"
 
+//React Navigation
+import { useNavigation } from "@react-navigation/native";
+
 //Formik
 import { Formik } from "formik";
 
@@ -27,6 +32,8 @@ const formInitialValues:AddPlaceForm = {
 }
 
 export default function AddPlace():ReactElement {
+
+    const navigation = useNavigation<NavigationProps>();
 
     const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
     const [selectedLocation, setSelectedLocation] = React.useState<LocationCoords | null>(null);
@@ -43,7 +50,8 @@ export default function AddPlace():ReactElement {
     async function handleFormSubmit(value: AddPlaceForm) {
         const addressOptions = await Location.reverseGeocodeAsync({latitude: selectedLocation?.lat!, longitude: selectedLocation?.lng!});
         const address = `${addressOptions[0].city}, ${addressOptions[0].region}, ${addressOptions[0].country}`;
-        console.log(address);
+        insertPlace(value.title, selectedImage!, address, selectedLocation!).then((res) => {console.log(res)})
+        navigation.navigate(SCREEN_NAMES.HOME);
     } 
 
     return <Formik initialValues={formInitialValues} validationSchema={addPlaceFormValidationSchema} onSubmit={handleFormSubmit}>
