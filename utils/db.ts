@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import { LocationCoords } from '../constants/types';
+import { LocationCoords, Place } from '../constants/types';
 
 const db = SQLite.openDatabase('places.db');
 
@@ -28,6 +28,37 @@ export function insertPlace(title: string, imageUri: string, address: string, lo
                 [title, imageUri, address, location.lat, location.lng],
                 (_, result) => {
                     resolve(result);
+                }
+                , (_, error) => {
+                    reject(error);
+                    return false;
+                }
+            );
+        });
+    })
+    return promise;
+}
+
+export function fetchPlaces() {
+    const promise = new Promise<Place[]>((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM places',
+                [],
+                (_, result) => {
+                    const rightFormatPlaces:Place[] = result.rows._array.map((place) => {
+                        return {
+                            id: place.id,
+                            title: place.title,
+                            imageUri: place.imageUri,
+                            address: place.address,
+                            location: {
+                                lat: place.lat,
+                                lng: place.lng
+                            }
+                        }
+                    })
+                    resolve(rightFormatPlaces);
                 }
                 , (_, error) => {
                     reject(error);
