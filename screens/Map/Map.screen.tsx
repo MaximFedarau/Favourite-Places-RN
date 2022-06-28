@@ -14,18 +14,26 @@ import { Ionicons } from "@expo/vector-icons";
 import { Alert } from 'react-native'
 
 //React Navigation
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 
 //React Native Maps
 import MapView, {MapEvent, Marker} from 'react-native-maps';
 
 export default function Map(): ReactElement {
 
+  type RouteProps = RouteProp<{[SCREEN_NAMES.MAP]?: {intialLocation?: LocationCoords}}>
+
   const navigation = useNavigation<NavigationProps>();
+  const route = useRoute<RouteProps>();
 
   const [pickedLocation, setPickedLocation] = React.useState<LocationCoords | null>(null);  
 
   function onCoordsSelectHandler(event: MapEvent<{}>) {
+
+    if (route.params) {
+      return;
+    }
+
     const lat = event.nativeEvent.coordinate.latitude;
     const lng = event.nativeEvent.coordinate.longitude;
 
@@ -41,6 +49,10 @@ export default function Map(): ReactElement {
   },[pickedLocation]) 
 
   React.useEffect(() => {
+    if (route.params) {
+      setPickedLocation(route.params.intialLocation!);
+      return;
+    }
     navigation.setOptions({
       headerRight: ({tintColor}) => {
         return <Ionicons name="save" size={24} color={tintColor} onPress={saveSelectedCoords} />
@@ -48,13 +60,15 @@ export default function Map(): ReactElement {
     })
   },[saveSelectedCoords])
 
-  return <MapView style={styles.container} initialRegion={{
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }} onPress={onCoordsSelectHandler}>
-    {pickedLocation && <Marker title="Picked Location" coordinate={{
+  const region = {
+    latitude: route.params ? route.params.intialLocation?.lat! : 37.78825,
+    longitude: route.params ? route.params.intialLocation?.lng! : -122.4324,
+    latitudeDelta: 0.0722,
+    longitudeDelta: 0.0221,
+  }
+
+  return <MapView style={styles.container} initialRegion={region} onPress={onCoordsSelectHandler} scrollEnabled={!route.params}>
+    {pickedLocation && <Marker draggable={!route.params} title="Picked Location" coordinate={{
         latitude: pickedLocation?.lat,
         longitude: pickedLocation?.lng,
     }} />}

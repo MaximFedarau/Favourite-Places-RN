@@ -18,7 +18,7 @@ import Button from "../../components/Defaults/Button/Button.component";
 import * as Location from 'expo-location';
 
 //React Native
-import {View, ScrollView, Text} from "react-native"
+import {View, ScrollView, Text, Alert} from "react-native"
 
 //React Navigation
 import { useNavigation } from "@react-navigation/native";
@@ -48,6 +48,10 @@ export default function AddPlace():ReactElement {
 
 
     async function handleFormSubmit(value: AddPlaceForm) {
+        if (!selectedImage || !selectedLocation) {
+            Alert.alert("You need to select an image and location");
+            return;
+        }
         const addressOptions = await Location.reverseGeocodeAsync({latitude: selectedLocation?.lat!, longitude: selectedLocation?.lng!});
         const address = `${addressOptions[0].city}, ${addressOptions[0].region}, ${addressOptions[0].country}`;
         insertPlace(value.title, selectedImage!, address, selectedLocation!).then((res) => {console.log(res)})
