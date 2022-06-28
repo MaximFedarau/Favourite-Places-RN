@@ -22,4 +22,10 @@ export const styles = StyleSheet.create({
     text: {
         color: PRIMARY_500,
     },
+    contained: {
+        backgroundColor: PRIMARY_500,
+    },
+    containedText: {
+        color: 'white'
+    }
 })

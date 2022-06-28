@@ -5,7 +5,7 @@ import React,{ ReactElement } from "react";
 import { styles } from "./ImagePicker.styles";
 
 //Components
-import Button from "../Button/Button.component";
+import Button from "../../Defaults/Button/Button.component";
 
 //Expo
 import * as ExpoImagePicker from 'expo-image-picker';
@@ -14,7 +14,12 @@ import {Ionicons} from '@expo/vector-icons';
 //React Native
 import { View,  Alert, Image, Text } from 'react-native'
 
-export default function ImagePicker():ReactElement {
+//Interface for Props
+interface ImagePickerProps {
+    formAction?: (image: string) => void;
+}
+
+export default function ImagePicker({formAction}:ImagePickerProps):ReactElement {
 
     const [image, setImage] = React.useState<string | null>(null);
 
@@ -42,7 +47,11 @@ export default function ImagePicker():ReactElement {
             allowsEditing: true, 
             aspect: [16, 9], 
             quality: 0.5});
-        if (!image.cancelled) setImage(image.uri)
+        if (!image.cancelled) {
+            setImage(image.uri);
+            if (formAction) formAction(image.uri);
+
+        }
     }
 
     return <View style={styles.container}>

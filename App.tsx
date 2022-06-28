@@ -10,6 +10,7 @@ import { NavigationProps } from './constants/constants';
 //Screens
 import Home from './screens/Home/Home.screen';
 import AddPlace from './screens/AddPlace/AddPlace.screen';
+import Map from './screens/Map/Map.screen';
 
 //React Navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -36,6 +37,7 @@ export default function App() {
             return <Ionicons name='add' size={24} color={tintColor} onPress={onPressHandler} />
           }})} component={Home} />
         <Stack.Screen name={SCREEN_NAMES.ADD_PLACE} options={{title: 'Add a new Place',}} component={AddPlace} />
+        <Stack.Screen name={SCREEN_NAMES.MAP} options={{title: 'Map'}} component={Map} />
       </Stack.Navigator>
     </NavigationContainer>
     </>
