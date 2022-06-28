@@ -15,6 +15,7 @@ import { init } from './utils/db';
 import Home from './screens/Home/Home.screen';
 import AddPlace from './screens/AddPlace/AddPlace.screen';
 import Map from './screens/Map/Map.screen';
+import Details from './screens/Details/Details.screen';
 
 //React Navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -47,6 +48,7 @@ export default function App() {
           }})} component={Home} />
         <Stack.Screen name={SCREEN_NAMES.ADD_PLACE} options={{title: 'Add a new Place',}} component={AddPlace} />
         <Stack.Screen name={SCREEN_NAMES.MAP} options={{title: 'Map'}} component={Map} />
+        <Stack.Screen name={SCREEN_NAMES.DETAILS} options={{title: 'Details'}} component={Details} />
       </Stack.Navigator>
     </NavigationContainer>
     </>
