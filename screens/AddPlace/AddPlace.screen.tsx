@@ -1,6 +1,6 @@
 //Types
 import React,{ ReactElement } from "react";
-import { LocationCoords } from "../../constants/types";
+import { LocationCoords, AddPlaceForm } from "../../constants/types";
 
 //Constants
 import { styles } from "./AddPlace.styles";
@@ -12,13 +12,16 @@ import ImagePicker from "../../components/Places/ImagePicker/ImagePicker.compone
 import LocationPicker from "../../components/Places/LocationPicker/LocationPicker.component";
 import Button from "../../components/Defaults/Button/Button.component";
 
+//Expo
+import * as Location from 'expo-location';
+
 //React Native
 import {View, ScrollView, Text} from "react-native"
 
 //Formik
 import { Formik } from "formik";
 
-const formInitialValues = {
+const formInitialValues:AddPlaceForm = {
     title: '',
 
 }
@@ -37,10 +40,10 @@ export default function AddPlace():ReactElement {
     }
 
 
-    function handleFormSubmit(value: any) {
-        console.log(value);
-        console.log(selectedImage);
-        console.log(selectedLocation);
+    async function handleFormSubmit(value: AddPlaceForm) {
+        const addressOptions = await Location.reverseGeocodeAsync({latitude: selectedLocation?.lat!, longitude: selectedLocation?.lng!});
+        const address = `${addressOptions[0].city}, ${addressOptions[0].region}, ${addressOptions[0].country}`;
+        console.log(address);
     } 
 
     return <Formik initialValues={formInitialValues} validationSchema={addPlaceFormValidationSchema} onSubmit={handleFormSubmit}>
