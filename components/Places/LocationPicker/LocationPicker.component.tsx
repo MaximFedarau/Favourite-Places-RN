@@ -8,7 +8,7 @@ import { SCREEN_NAMES } from "../../../constants/constants";
 import { styles } from "./LocationPicker.styles";
 
 //Components
-import Button from "../Button/Button.component";
+import Button from "../../Defaults/Button/Button.component";
 
 //Expo
 import * as Location from 'expo-location';
@@ -23,7 +23,12 @@ import {useNavigation, useRoute, useIsFocused, RouteProp} from "@react-navigatio
 //React Native Maps
 import MapView, {Marker} from 'react-native-maps';
 
-export default function LocationPicker(): ReactElement {
+//Interface for Props
+interface LocationPickerProps {
+  formAction?: (location?: LocationCoords) => void;
+}
+
+export default function LocationPicker({formAction}:LocationPickerProps): ReactElement {
 
   type LocationPickerRouteProp = RouteProp<{[SCREEN_NAMES.ADD_PLACE]: {location:LocationCoords}}>;
 
@@ -36,6 +41,7 @@ export default function LocationPicker(): ReactElement {
   React.useEffect(() => {
     if (isFocused && route.params) {
       setPickedLocation(route.params.location);
+      if (formAction) formAction(route.params.location);
     }
   },[isFocused])
  
@@ -62,6 +68,7 @@ export default function LocationPicker(): ReactElement {
         if (!status) return;
         const position = await Location.getCurrentPositionAsync();
         setPickedLocation({lat: position.coords.latitude, lng: position.coords.longitude});
+        if (formAction) formAction({lat: position.coords.latitude, lng: position.coords.longitude});
     }
 
   function selectCoordsHandler() {

@@ -4,7 +4,16 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 24,
-        marginHorizontal: 16,
+        padding: 24,
+    },
+    errorText: {
+        color: "red",
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    submitButtonContainer: {
+        flex: 1,
+         marginTop: 12
     }
 })

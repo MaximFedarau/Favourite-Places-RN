@@ -1,19 +1,19 @@
 //Types
 import React,{ ReactElement } from "react";
+import { LocationCoords } from "../../constants/types";
 
 //Constants
 import { styles } from "./AddPlace.styles";
 import { addPlaceFormValidationSchema } from "../../constants/validationSchemas";
-import { SCREEN_NAMES } from "../../constants/constants";
-import { LocationCoords } from "../../constants/types";
 
 //Components
 import FormField from "../../components/Defaults/FormField/FormField.component";
-import ImagePicker from "../../components/Defaults/ImagePicker/ImagePicker.component";
-import LocationPicker from "../../components/Defaults/LocationPicker/LocationPicker.component";
+import ImagePicker from "../../components/Places/ImagePicker/ImagePicker.component";
+import LocationPicker from "../../components/Places/LocationPicker/LocationPicker.component";
+import Button from "../../components/Defaults/Button/Button.component";
 
 //React Native
-import {View, ScrollView} from "react-native"
+import {View, ScrollView, Text} from "react-native"
 
 //Formik
 import { Formik } from "formik";
@@ -25,21 +25,38 @@ const formInitialValues = {
 
 export default function AddPlace():ReactElement {
 
+    const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
+    const [selectedLocation, setSelectedLocation] = React.useState<LocationCoords | null>(null);
 
-    function handleSubmit(value: any) {
+    function handleImagePicked(image?:string) {
+        if (image) setSelectedImage(image);
+    }
+
+    function handleLocationPicked(location?:LocationCoords) {
+        if (location) setSelectedLocation(location);
+    }
+
+
+    function handleFormSubmit(value: any) {
         console.log(value);
+        console.log(selectedImage);
+        console.log(selectedLocation);
     } 
 
-    return <Formik initialValues={formInitialValues} validationSchema={addPlaceFormValidationSchema} onSubmit={handleSubmit}>
-        {({ values, handleSubmit, handleChange }) => (
+    return <Formik initialValues={formInitialValues} validationSchema={addPlaceFormValidationSchema} onSubmit={handleFormSubmit}>
+        {({ values, handleSubmit, handleChange, errors }) => (
             <ScrollView style={styles.container}>
                 <FormField 
                 value={values.title} 
                 onChangeText={handleChange('title')}
                 label='Title'
                 placeholder="Enter your title:" />
-                <ImagePicker />
-                <LocationPicker/>
+                {Object.keys(errors).length > 0 && <Text style={styles.errorText}>{errors ? errors.title : ''}</Text>}
+                <ImagePicker formAction={handleImagePicked} />
+                <LocationPicker formAction={handleLocationPicked} />
+                <View style={styles.submitButtonContainer}>
+                    <Button onPress={handleSubmit} mode="contained">Submit</Button>
+                </View>
             </ScrollView>
         )}
     </Formik>
