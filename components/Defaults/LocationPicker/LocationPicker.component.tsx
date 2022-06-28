@@ -2,6 +2,7 @@
 import React,{ ReactElement } from "react";
 import { LocationCoords } from "../../../constants/types";
 import { NavigationProps } from "../../../constants/constants";
+import { SCREEN_NAMES } from "../../../constants/constants";
 
 //Constants
 import { styles } from "./LocationPicker.styles";
@@ -17,16 +18,27 @@ import {Ionicons} from '@expo/vector-icons';
 import { View, Alert, Text } from 'react-native'
 
 //React Navigation
-import {useNavigation} from "@react-navigation/native"
+import {useNavigation, useRoute, useIsFocused, RouteProp} from "@react-navigation/native"
 
 //React Native Maps
 import MapView, {Marker} from 'react-native-maps';
 
 export default function LocationPicker(): ReactElement {
 
-  const navigation = useNavigation<NavigationProps>();
+  type LocationPickerRouteProp = RouteProp<{[SCREEN_NAMES.ADD_PLACE]: {location:LocationCoords}}>;
 
-  const [pickedLocation, setPickedLocation] = React.useState<LocationCoords | null>(null);  
+  const navigation = useNavigation<NavigationProps>();
+  const route = useRoute<LocationPickerRouteProp>();
+  const isFocused = useIsFocused();
+
+  const [pickedLocation, setPickedLocation] = React.useState<LocationCoords | null>(null); 
+
+  React.useEffect(() => {
+    if (isFocused && route.params) {
+      setPickedLocation(route.params.location);
+    }
+  },[isFocused])
+ 
 
   const [status, requestPermission] = Location.useForegroundPermissions();
 
@@ -38,7 +50,7 @@ export default function LocationPicker(): ReactElement {
     }
 
     if (status?.status === Location.PermissionStatus.DENIED) {
-        Alert.alert("Insufficient permissions", "You need to grant camera permissions to use this app. Please go to settings and grant permissions.")
+        Alert.alert("Insufficient permissions", "You need to grant location permissions to use this app. Please go to settings and grant permissions.")
         return false;
     }
     
@@ -53,11 +65,11 @@ export default function LocationPicker(): ReactElement {
     }
 
   function selectCoordsHandler() {
-    navigation.navigate("Map")
+    navigation.navigate(SCREEN_NAMES.MAP)
   }  
 
   return <View>
-    {pickedLocation ? <View style={styles.mapPreview}><MapView style={styles.image} initialRegion={{
+    {pickedLocation ? <View style={styles.mapPreview}><MapView style={styles.image} region={{
         longitude: pickedLocation.lng,
         latitude: pickedLocation.lat,
         longitudeDelta: 0.01,

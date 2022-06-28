@@ -26,7 +26,6 @@ export default function Map(): ReactElement {
   const [pickedLocation, setPickedLocation] = React.useState<LocationCoords | null>(null);  
 
   function onCoordsSelectHandler(event: MapEvent<{}>) {
-    console.log(pickedLocation,new Date().getTime())
     const lat = event.nativeEvent.coordinate.latitude;
     const lng = event.nativeEvent.coordinate.longitude;
 
