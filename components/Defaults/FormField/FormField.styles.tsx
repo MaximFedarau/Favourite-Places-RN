@@ -7,6 +7,7 @@ import { PRIMARY_100, PRIMARY_400 } from '../../../constants/colors'
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginVertical: 12,
     },
     input: {
         backgroundColor: PRIMARY_100,
