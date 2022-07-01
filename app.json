@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "React-Native-Favourite-Places",
+    "name": "Favourites Places",
     "slug": "React-Native-Favourite-Places",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,13 +18,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "1.0.0",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.maximfedarau.FavouritePlaces"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "versionCode": 1,
+      "package": "com.maximfedarau.FavouritePlaces"
     },
     "web": {
       "favicon": "./assets/favicon.png"
